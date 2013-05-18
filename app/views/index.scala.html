@@ -1,46 +1,42 @@
 <html>
-    <head>
-        <title>ftlFiddle</title>
-        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"></script>
-    </head>
-    <body>
-        <h1>ftlFiddle</h1>
-        <div id="main">
-            <div id="editArea">
-                <textarea></textarea>
-            </div>
-            <div id="previewArea">
-                <textarea readonly="true"></textarea>
-            </div>
-        </div>
+  <head>
+    <title>ftlFiddle</title>
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
+    <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"></script>
+  </head>
+  <body>
+    <h1>ftlFiddle</h1>
+    <div id="main">
+      <div id="editArea">
+        <textarea></textarea>
+      </div>
+      <div id="previewArea">
+        <textarea readonly="true"></textarea>
+      </div>
+    </div>
 
-        <script>
-        var delay = (function(){
-            var timer = 0;
-            return function(callback, ms){
-            clearTimeout (timer);
-            timer = setTimeout(callback, ms);
-            };
-            })();
+    <script>
+    var delay = (function() {
+        var timer = 0;
+        return function(callback, ms) {
+	    clearTimeout (timer);
+	    timer = setTimeout(callback, ms);
+	};
+    })();
 
-            $('textarea').bind('keyup', function() {
-
-            delay(function(){
-            console.log('keyup');
-
-            $.ajax({
-            url:"./templateResult",
-            data:{source:$("#editArea").children("textarea").val()}
-            }).done(function(response){
-            $("#previewArea").children("textarea").val(response);
-
-            }).fail(function(data){
-            console.log("failed to get result");
-            });
-
-            }, 1000);
-            });
-        </script>
-    </body>
+    $('textarea').bind('keyup', function() {
+	delay(function() {
+	    $.ajax({
+		url : "./templateResult",
+		data : {source:$("#editArea").children("textarea").val()}
+	    }).done(function(response){
+		$("#previewArea").children("textarea").val(response);
+		
+	    }).fail(function(data) {
+		console.log("failed to get result");
+	    });
+	}, 1000);
+    });
+    </script>
+  </body>
 </html>
