@@ -8,7 +8,12 @@
     <h1>ftlFiddle</h1>
     <div id="main">
       <div id="editArea">
-        <textarea></textarea>
+        <textarea>
+&lt;#assign values=[&quot;foo&quot;,&quot;bar&quot;,&quot;buzz&quot;]&gt;
+&lt;#list values as value&gt;
+index ${value_index} : ${value}
+&lt;/#list&gt;
+	</textarea>
       </div>
       <div id="previewArea">
         <textarea readonly="true"></textarea>
@@ -16,27 +21,32 @@
     </div>
 
     <script>
-    var delay = (function() {
+    function delay() {
         var timer = 0;
         return function(callback, ms) {
 	    clearTimeout (timer);
 	    timer = setTimeout(callback, ms);
 	};
-    })();
+    }
 
-    $('textarea').bind('keyup', function() {
-	delay(function() {
-	    $.ajax({
+    function preview() {
+	$.ajax({
 		url : "./templateResult",
 		data : {source:$("#editArea").children("textarea").val()}
-	    }).done(function(response){
+	}).done(function(response){
 		$("#previewArea").children("textarea").val(response);
 		
-	    }).fail(function(data) {
+	}).fail(function(data) {
 		console.log("failed to get result");
-	    });
-	}, 1000);
+	});
+    }
+
+    $('textarea').bind('keyup', function() {
+	delay(preview(), 1000);
     });
+    
+    //onload
+    preview();
     </script>
   </body>
 </html>
